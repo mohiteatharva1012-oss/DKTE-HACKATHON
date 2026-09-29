@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/pcb-logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PRODUCTIVITY CRIME BRANCH — Government of Lost Time</title>
+    <meta name="description" content="Federal Department of Temporal Mismanagement & Chronic Hesitation. Investigating stolen hours, fake productivity, and the conspiracy of postponement." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&family=Special+Elite&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="root">
+      <div style="font-family: sans-serif; background: #070C18; color: #F7E7B4; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center;">
+        <h1 style="color: #D4AF37; margin-bottom: 12px;">PRODUCTIVITY CRIME BRANCH</h1>
+        <p style="color: #CBD5E1; max-width: 600px; line-height: 1.6; margin-bottom: 24px;">
+          If you opened this raw file directly, please open <strong style="color: #FFF;"><a href="./APP_STANDALONE.html" style="color: #D4AF37; text-decoration: underline;">APP_STANDALONE.html</a></strong> or double-click <strong style="color: #FFF;">CLICK_TO_RUN.bat</strong> to run the live application.
+        </p>
+        <a href="./APP_STANDALONE.html" style="background: #D4AF37; color: #070C18; padding: 12px 24px; border-radius: 4px; text-decoration: none; font-weight: bold;">
+          OPEN STANDALONE APPLICATION →
+        </a>
+      </div>
+    </div>
+    <script>
+      // When opened directly via file:// in Windows Explorer, auto-redirect to bundled standalone app
+      if (window.location.protocol === 'file:') {
+        window.location.replace('./APP_STANDALONE.html');
+      }
+    </script>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

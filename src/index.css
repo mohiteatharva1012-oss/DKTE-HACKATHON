@@ -1,0 +1,525 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&family=Special+Elite&display=swap');
+
+:root {
+  --navy-deepest: #050811;
+  --navy-base: #0A1122;
+  --navy-elevated: #101B34;
+  --navy-card: #142242;
+  --navy-border: #21365F;
+  --navy-border-glow: #2D4C85;
+  
+  --gold-primary: #D4AF37;
+  --gold-light: #F7E7B4;
+  --gold-muted: #9E833B;
+  --gold-dark: #6B5520;
+  --gold-glow: rgba(212, 175, 55, 0.2);
+  
+  --red-stamp: #B22222;
+  --red-distressed: #C0392B;
+  --red-bright: #E74C3C;
+  --red-glow: rgba(192, 57, 43, 0.35);
+
+  --green-clearance: #1B4D3E;
+  --green-text: #48BB78;
+  
+  --paper-manila: #F6F2E9;
+  --paper-aged: #ECE4D0;
+  --paper-shadow: rgba(0, 0, 0, 0.45);
+  --ink-primary: #1C1917;
+  --ink-secondary: #44403C;
+  --ink-redacted: #0C0A09;
+
+  --font-heading: 'Cinzel', serif;
+  --font-typewriter: 'Special Elite', 'Courier Prime', monospace;
+  --font-mono: 'Courier Prime', monospace;
+  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background-color: var(--navy-deepest);
+  color: #E2E8F0;
+  font-family: var(--font-ui);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Detective Magnifying Glass Cursor support */
+@media (pointer: fine) {
+  body.custom-cursor-enabled,
+  body.custom-cursor-enabled * {
+    cursor: none !important;
+  }
+}
+
+/* Background Atmospheric Noise & Grid */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 65%),
+    radial-gradient(circle at 100% 100%, rgba(16, 27, 52, 0.6) 0%, transparent 50%),
+    linear-gradient(rgba(21, 36, 66, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21, 36, 66, 0.15) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--navy-deepest);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--navy-border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-muted);
+}
+
+/* Rubber Stamp Styling */
+.rubber-stamp {
+  display: inline-block;
+  font-family: var(--font-typewriter);
+  text-transform: uppercase;
+  font-weight: 700;
+  border-radius: 4px;
+  letter-spacing: 2px;
+  line-height: 1;
+  user-select: none;
+}
+
+.rubber-stamp-red {
+  color: var(--red-stamp);
+  border: 3px solid var(--red-stamp);
+  text-shadow: 0 0 1px rgba(178, 34, 34, 0.5);
+  box-shadow: inset 0 0 0 1px rgba(178, 34, 34, 0.3), 0 0 8px rgba(178, 34, 34, 0.2);
+  mask-image: radial-gradient(circle, black 85%, rgba(0, 0, 0, 0.65) 100%);
+}
+
+.rubber-stamp-gold {
+  color: var(--gold-primary);
+  border: 2px solid var(--gold-primary);
+  text-shadow: 0 0 2px var(--gold-glow);
+  box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.3);
+}
+
+.rubber-stamp-green {
+  color: #38A169;
+  border: 2px solid #38A169;
+  text-shadow: 0 0 2px rgba(56, 161, 105, 0.3);
+}
+
+/* Classified Redaction Effect */
+.redacted-bar {
+  background-color: var(--ink-redacted);
+  color: var(--ink-redacted);
+  padding: 0 4px;
+  border-radius: 2px;
+  user-select: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+  display: inline-block;
+}
+
+.redacted-bar:hover, .redacted-bar.revealed {
+  background-color: rgba(212, 175, 55, 0.15);
+  color: #E2E8F0;
+  outline: 1px dashed var(--gold-muted);
+}
+
+/* Paper Document Aesthetic */
+.paper-dossier {
+  background-color: var(--paper-manila);
+  color: var(--ink-primary);
+  box-shadow: 0 20px 40px var(--paper-shadow), 0 1px 3px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  position: relative;
+  border-left: 6px solid #D6CEBE;
+}
+
+.paper-dossier::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(#000 0.75px, transparent 0.75px);
+  background-size: 24px 24px;
+  opacity: 0.04;
+  pointer-events: none;
+}
+
+/* Bureau Ticker Banner */
+@keyframes tickerSlide {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-track {
+  display: flex;
+  white-space: nowrap;
+  animation: tickerSlide 40s linear infinite;
+}
+
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* Subtle Cinematic Glow & Animations */
+@keyframes pulseGold {
+  0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.3)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 14px rgba(212, 175, 55, 0.65)); }
+}
+
+.pulse-gold {
+  animation: pulseGold 3s ease-in-out infinite;
+}
+
+/* Screen Shake on Dramatic Verdict Slam */
+@keyframes screenShake {
+  0% { transform: translate(0, 0); }
+  15% { transform: translate(-4px, 4px) rotate(-0.5deg); }
+  30% { transform: translate(4px, -3px) rotate(0.5deg); }
+  45% { transform: translate(-3px, 2px); }
+  60% { transform: translate(2px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+
+.screen-shake {
+  animation: screenShake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* Dramatic Rubber Stamp Impact Animation */
+@keyframes stampSlamDramatic {
+  0% {
+    transform: scale(3.5) rotate(-18deg);
+    opacity: 0;
+    filter: blur(4px);
+  }
+  65% {
+    transform: scale(0.92) rotate(-3deg);
+    opacity: 1;
+    filter: blur(0px);
+  }
+  80% {
+    transform: scale(1.04) rotate(-5deg);
+  }
+  100% {
+    transform: scale(1) rotate(-4deg);
+    opacity: 1;
+  }
+}
+
+.animate-stamp-dramatic {
+  animation: stampSlamDramatic 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Evidence Recorded Badge Pop-in Animation */
+@keyframes evidenceRecordedPop {
+  0% {
+    transform: scale(0.5) translateY(10px);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.15) translateY(-2px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-evidence-pop {
+  animation: evidenceRecordedPop 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* Smooth Step Transition */
+@keyframes stepFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.step-transition {
+  animation: stepFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Sequential Stagger for Cards */
+@keyframes cardCascade {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.card-stagger {
+  opacity: 0;
+  animation: cardCascade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.card-stagger-1 { animation-delay: 0.08s; }
+.card-stagger-2 { animation-delay: 0.16s; }
+.card-stagger-3 { animation-delay: 0.24s; }
+.card-stagger-4 { animation-delay: 0.32s; }
+.card-stagger-5 { animation-delay: 0.40s; }
+.card-stagger-6 { animation-delay: 0.48s; }
+
+/* Checklist Item Active Pulse */
+@keyframes checklistPulse {
+  0%, 100% {
+    background-color: rgba(212, 175, 55, 0.08);
+    border-color: rgba(212, 175, 55, 0.4);
+  }
+  50% {
+    background-color: rgba(212, 175, 55, 0.22);
+    border-color: var(--gold-primary);
+  }
+}
+
+.checklist-active {
+  animation: checklistPulse 1.2s ease-in-out infinite;
+}
+
+/* Print styling for Case File PDF */
+@media print {
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  body::before {
+    display: none !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .paper-dossier {
+    box-shadow: none !important;
+    border: 1px solid #333 !important;
+  }
+}
+
+/* ==========================================================================
+   Custom Cursor Styles (Desktop Only)
+   ========================================================================== */
+.custom-cursor-element {
+  transition: opacity 0.2s ease;
+}
+.cursor-inner-wrapper {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  transition: transform 0.15s ease, filter 0.2s ease;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 6px rgba(0, 206, 209, 0.5));
+}
+.custom-cursor-element.cursor-is-hovered .cursor-inner-wrapper {
+  width: 46px;
+  height: 46px;
+  transform: scale(1.15) rotate(4deg);
+  filter: drop-shadow(0 0 10px rgba(0, 206, 209, 0.9)) drop-shadow(0 0 18px rgba(212, 175, 55, 0.4));
+}
+.custom-cursor-element.cursor-is-clicking .cursor-inner-wrapper {
+  transform: scale(0.88) rotate(-6deg);
+}
+
+/* ==========================================================================
+   Mobile & Tablet Responsive System (for Vercel & All Mobile Devices)
+   ========================================================================== */
+@media (pointer: coarse), (max-width: 768px) {
+  body.custom-cursor-enabled,
+  body.custom-cursor-enabled * {
+    cursor: auto !important;
+  }
+  .custom-cursor-element,
+  canvas {
+    display: none !important;
+  }
+}
+
+@media (max-width: 860px) {
+  /* Conspiracy Pipeline on Tablets / Small Screens */
+  .conspiracy-main-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  .conspiracy-corkboard {
+    height: 420px !important;
+  }
+
+  /* CodeChef Profile User Card */
+  .pcb-profile-user-card {
+    grid-template-columns: 1fr !important;
+    text-align: center !important;
+    gap: 20px !important;
+    padding: 24px 18px !important;
+  }
+  .pcb-profile-user-card > div:first-child {
+    margin: 0 auto !important;
+  }
+  .pcb-profile-user-card > div:nth-child(2) > div {
+    justify-content: center !important;
+  }
+  .pcb-profile-user-card > div:nth-child(3) {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Global viewport touch handling */
+  html, body {
+    overflow-x: hidden !important;
+    width: 100%;
+  }
+
+  button, a, input, select, textarea {
+    touch-action: manipulation;
+  }
+
+  /* Header on Mobile */
+  .header-main-bar {
+    padding: 8px 12px !important;
+    gap: 8px !important;
+  }
+  .header-subtitle {
+    display: none !important;
+  }
+  .header-steps-bar {
+    overflow-x: auto !important;
+    max-width: 100% !important;
+    white-space: nowrap !important;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding: 3px 6px !important;
+  }
+  .header-steps-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Primary Landing Page Actions */
+  .landing-actions-container {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 12px !important;
+  }
+  .landing-actions-container button {
+    width: 100% !important;
+    min-height: 48px !important;
+    justify-content: center !important;
+    padding: 14px 20px !important;
+    font-size: 14px !important;
+  }
+
+  /* Manila Paper Dossier Folder */
+  .paper-dossier {
+    padding: 20px 14px !important;
+    margin: 0 -4px !important;
+    border-radius: 4px !important;
+  }
+
+  /* Profile Portal Top Navigation */
+  .pcb-profile-top-bar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+  }
+  .pcb-profile-top-bar button {
+    width: 100% !important;
+    justify-content: center !important;
+    min-height: 40px !important;
+  }
+
+  /* Corkboard & SVG scaling */
+  .conspiracy-corkboard {
+    height: 360px !important;
+  }
+
+  /* Modal Dialogs */
+  div[style*="position: fixed"][style*="zIndex: 1000"],
+  div[style*="position: fixed"][style*="zIndex: 10000"] {
+    padding: 12px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra Small Mobile Screens */
+  .paper-dossier {
+    padding: 16px 10px !important;
+  }
+  .rubber-stamp {
+    font-size: 10px !important;
+    letter-spacing: 1px !important;
+    padding: 2px 6px !important;
+  }
+  .conspiracy-corkboard {
+    height: 320px !important;
+  }
+  h1 {
+    font-size: clamp(20px, 6vw, 28px) !important;
+  }
+}
+
+/* Robotic Voice Bot Audio Equalizer Animation */
+@keyframes pcbAudioBar {
+  0%, 100% {
+    height: 4px;
+    opacity: 0.5;
+  }
+  50% {
+    height: 20px;
+    opacity: 1;
+  }
+}
+
+.pcb-audio-bar {
+  width: 3px;
+  background: #00CED1;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+}
+
+.pcb-audio-bar.playing {
+  animation: pcbAudioBar 0.7s ease-in-out infinite alternate;
+}
+.pcb-audio-bar.playing:nth-child(1) { animation-delay: 0.05s; }
+.pcb-audio-bar.playing:nth-child(2) { animation-delay: 0.2s; }
+.pcb-audio-bar.playing:nth-child(3) { animation-delay: 0.35s; }
+.pcb-audio-bar.playing:nth-child(4) { animation-delay: 0.15s; }
+.pcb-audio-bar.playing:nth-child(5) { animation-delay: 0.4s; }
+.pcb-audio-bar.playing:nth-child(6) { animation-delay: 0.25s; }
+
+

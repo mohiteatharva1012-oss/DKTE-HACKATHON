@@ -1,0 +1,28 @@
+/* Productivity Crime Branch - App Specific Utility Styles */
+
+@keyframes spinSlow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spin-slow {
+  animation: spinSlow 50s linear infinite;
+}
+
+/* Print Specific Overrides */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  #case-file-document {
+    box-shadow: none !important;
+    border: 2px solid #000 !important;
+    background: #FFFFFF !important;
+  }
+}
